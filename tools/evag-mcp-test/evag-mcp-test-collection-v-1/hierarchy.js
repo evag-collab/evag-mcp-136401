@@ -21,7 +21,7 @@ const executeFunction = async ({ accountId }) => {
     };
 
     // Perform the fetch request
-    const response = await fetch(requestUrl.toString(), {
+    const response = await fetch(apiUrl.toString(), {
       method: 'GET',
       headers
     });
