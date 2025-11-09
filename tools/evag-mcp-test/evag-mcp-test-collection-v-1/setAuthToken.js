@@ -1,4 +1,4 @@
-export const setAuthToken = {
+export const apiTool = {
   definition: {
     function: {
       name: "set_auth_token",
