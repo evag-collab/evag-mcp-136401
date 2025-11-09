@@ -6,7 +6,7 @@
  * @returns {Promise<Object>} - The result of the currency fetch.
  */
 const executeFunction = async ({ currencyType } = {}) => {
-  const url = ''; // will be provided by the user
+  const url = process.env.EVAG_MCP_BASE_URL; // will be provided by the user
   const token = process.env.EVAG_MCP_TEST_API_KEY;
   try {
     // Construct the URL
