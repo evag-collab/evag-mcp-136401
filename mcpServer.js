@@ -59,7 +59,7 @@ global.fetch = async function (input, init = {}) {
   headers.set("content-type", "application/json");
 
   console.log("[DEBUG] Final request URL:", fullUrl);
-  console.log("[DEBUG] Using token (first 20 chars):", token.slice(0, 20) + "...");
+  console.log("[DEBUG] Using token (first 20 chars):", token.slice(0, 40) + "...");
 
   return originalFetch(fullUrl, { ...init, headers });
 };
