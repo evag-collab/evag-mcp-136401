@@ -6,7 +6,7 @@
  * @returns {Promise<Object>} - The result of the country details fetch.
  */
 const executeFunction = async ({ countryISO3 }) => {
-  const url = ''; // will be provided by the user
+  const url = 'simforthings-dev.bics.com'; // will be provided by the user
   const token = process.env.EVAG_MCP_TEST_API_KEY;
   try {
     // Construct the API URL
