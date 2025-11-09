@@ -22,6 +22,32 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
+
+
+// --- Global base URL injection for ALL fetch calls ---
+const originalFetch = global.fetch;
+const BASE_URL = process.env.EVAG_MCP_BASE_URL || "";
+
+global.fetch = async function (input, init = {}) {
+  let fullUrl = input;
+
+  // Auto-prepend base URL if the tool provides a relative path
+  if (typeof input === "string" && !input.startsWith("http")) {
+    const cleanedBase = BASE_URL.replace(/^https?:\/\//, "").replace(/\/+$/, "");
+    const cleanedPath = input.replace(/^\/+/, "");
+    fullUrl = `https://${cleanedBase}/${cleanedPath}`;
+  }
+
+  console.log("[DEBUG] Final request URL:", fullUrl);
+
+  return originalFetch(fullUrl, init);
+};
+// --- End global base URL injection ---
+
+
+
+
+
 const SERVER_NAME = "generated-mcp-server";
 
 async function transformTools(tools) {
