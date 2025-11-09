@@ -10,7 +10,8 @@ const executeFunction = async ({ accountId }) => {
   const token = process.env.EVAG_MCP_TEST_API_KEY;
   try {
     // Construct the URL for the request
-    const apiUrl = new URL(`https://${url}/api/accountHierarchy`);
+      const apiUrl = `${url}/api/accountHierarchy`;
+    
 
     // Set up headers for the request
     const headers = {
