@@ -10,7 +10,7 @@ const executeFunction = async ({ countryISO3 }) => {
   const token = process.env.EVAG_MCP_TEST_API_KEY;
   try {
     // Construct the API URL
-    const apiUrl = new URL(`https://${url}/api/GetCountries`);
+  const apiUrl = `${url}/api/GetCountries`;
 
     // Set up headers for the request
     const headers = {
