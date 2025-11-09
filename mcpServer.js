@@ -24,7 +24,18 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 
 
 
-// --- Global base URL injection for ALL fetch calls ---
+// --- Dynamic token handling ---
+let DYNAMIC_TOKEN = process.env.EVAG_MCP_TEST_API_KEY || "";
+
+// helper functions accessible globally
+global.getAuthToken = () => DYNAMIC_TOKEN;
+global.setAuthToken = (newToken) => {
+  DYNAMIC_TOKEN = newToken;
+  console.log("[INFO] Token updated dynamically.");
+};
+// --- End dynamic token handling ---
+
+// --- Global base URL + token injection for ALL fetch calls ---
 const originalFetch = global.fetch;
 const BASE_URL = process.env.EVAG_MCP_BASE_URL || "";
 
@@ -38,11 +49,24 @@ global.fetch = async function (input, init = {}) {
     fullUrl = `https://${cleanedBase}/${cleanedPath}`;
   }
 
-  console.log("[DEBUG] Final request URL:", fullUrl);
+  // Inject token into headers
+  const headers = new Headers(init.headers || {});
+  const token = (global.getAuthToken() || "").trim();
+  if (token) {
+    headers.set("x-authorization", `Bearer ${token}`);
+  }
+  headers.set("x-requested-with", "XMLHttpRequest");
+  headers.set("content-type", "application/json");
 
-  return originalFetch(fullUrl, init);
+  console.log("[DEBUG] Final request URL:", fullUrl);
+  console.log("[DEBUG] Using token (first 20 chars):", token.slice(0, 20) + "...");
+
+  return originalFetch(fullUrl, { ...init, headers });
 };
-// --- End global base URL injection ---
+// --- End global base URL + token injection ---
+
+
+
 
 
 
